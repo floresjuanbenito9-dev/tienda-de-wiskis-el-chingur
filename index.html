@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiski Sopachueño | Selección de Tradición y Lujo</title>
+    <style>
+        /* Variables de Colores e Identidad Cultural */
+        :root {
+            --kirusilla-oscurisimo: #260510;
+            --kirusilla-oscuro: #3B0918;
+            --kirusilla-claro: #73173D;
+            --dorado-brillante: #F1C40F;
+            --dorado-elegante: #D4AF37;
+            --fondo-crema: #FDFBF7;
+            --texto-principal: #2B2B2B;
+            --blanco: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--fondo-crema);
+            color: var(--texto-principal);
+        }
+
+        /* Encabezado */
+        header {
+            background-color: var(--kirusilla-oscurisimo);
+            color: var(--dorado-elegante);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border-bottom: 2px solid var(--dorado-elegante);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .btn-carrito {
+            background: linear-gradient(135deg, var(--dorado-elegante), var(--dorado-brillante));
+            color: var(--kirusilla-oscurisimo);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-carrito:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Hero / Banner */
+        .hero {
+            background: linear-gradient(rgba(38, 5, 16, 0.85), rgba(115, 23, 61, 0.85)), 
+                        url('https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: var(--blanco);
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 4px solid var(--dorado-elegante);
+        }
+
+        .hero h2 {
+            font-size: 2.6rem;
+            color: var(--dorado-elegante);
+            margin-bottom: 0.8rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto;
+            color: #E0E0E0;
+        }
+
+        /* Navegación de Filtros / Sectores */
+        .contenedor-filtros {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        .btn-filtro {
+            background-color: var(--blanco);
+            color: var(--kirusilla-oscuro);
+            border: 1px solid var(--kirusilla-claro);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filtro:hover, .btn-filtro.activo {
+            background-color: var(--kirusilla-oscuro);
+            color: var(--dorado-elegante);
+            border-color: var(--dorado-elegante);
+        }
+
+        /* Catálogo */
+        .catalogo {
+            padding: 1rem 5% 4rem 5%;
+        }
+
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Tarjetas de Producto */
+        .tarjeta-producto {
+            background: var(--blanco);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #EAEAEA;
+            position: relative;
+        }
+
+        .tarjeta-producto:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(59, 9, 24, 0.2);
+        }
+
+        .etiqueta-sector {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(38, 5, 16, 0.85);
+            color: var(--dorado-elegante);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 12px;
+            border: 1px solid var(--dorado-elegante);
+            backdrop-filter: blur(4px);
+        }
+
+        .tarjeta-producto img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .tarjeta-info {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .tarjeta-info h3 {
+            color: var(--kirusilla-oscurisimo);
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .tarjeta-info .descripcion {
+            font-size: 0.88rem;
+            color: #666;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            line-height: 1.4;
+        }
+
+        .precio-contenedor {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 0.8rem;
+            border-top: 1px solid #F0F0F0;
+        }
+
+        .precio {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--kirusilla-claro);
+        }
+
+        .btn-agregar {
+            background-color: var(--kirusilla-oscuro);
+            color: var(--dorado-elegante);
+            border: 1px solid var(--dorado-elegante);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .btn-agregar:hover {
+            background-color: var(--dorado-elegante);
+            color: var(--kirusilla-oscurisimo);
+        }
+
+        /* Modales */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.activo {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--blanco);
+            width: 90%;
+            max-width: 520px;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border-top: 6px solid var(--kirusilla-oscuro);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: var(--kirusilla-oscurisimo);
+            border-bottom: 2px solid var(--dorado-elegante);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lista-carrito {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-carrito {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #EEE;
+        }
+
+        .total-carrito {
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: right;
+            color: var(--kirusilla-claro);
+            margin-bottom: 1.5rem;
+        }
+
+        .acciones-modal {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-cerrar {
+            background-color: #E0E0E0;
+            color: #333;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .oculto { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Wiski Sopachueño</h1>
+        <button class="btn-carrito" onclick="abrirCarrito()">
+            🛒 Mi Carrito (<span id="contador-carrito">0</span>)
+        </button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Elegancia, Herencia y Sabor</h2>
+            <p>Explora nuestras distintas gamas de kirusilla tradicional de Sopachuy y selecciones exclusivas de whisky premium.</p>
+        </section>
+
+        <!-- Filtros por Sector -->
+        <div class="contenedor-filtros">
+            <button class="btn-filtro activo" onclick="filtrarSector('todos', this)">Ver Todo</button>
+            <button class="btn-filtro" onclick="filtrarSector('kirusilla-eco', this)">Kirusillas Económicas</button>
+            <button class="btn-filtro" onclick="filtrarSector('kirusilla-reserva', this)">Kirusillas Gran Reserva</button>
+            <button class="btn-filtro" onclick="filtrarSector('whisky-clasico', this)">Whiskies Clásicos</button>
+            <button class="btn-filtro" onclick="filtrarSector('whisky-premium', this)">Whiskies Ultra Premium</button>
+        </div>
+
+        <section class="catalogo">
+            <div class="grid-productos" id="grid-productos">
+                <!-- Los productos se generan dinámicamente desde JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Carrito y Recibo -->
+    <div id="modal-carrito" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-titulo">Resumen de Compras</h2>
+            
+            <ul id="lista-carrito" class="lista-carrito"></ul>
+            
+            <div class="total-carrito">
+                Total: Bs. <span id="total-precio">0</span>
+            </div>
+
+            <!-- Botones estado 1: Carrito -->
+            <div id="acciones-carrito" class="acciones-modal">
+                <button class="btn-cerrar" onclick="cerrarModal()">Seguir Comprando</button>
+                <button class="btn-agregar" onclick="generarRecibo()">Generar Recibo</button>
+            </div>
+
+            <!-- Botones estado 2: Confirmación y Envío -->
+            <div id="acciones-recibo" class="acciones-modal oculto">
+                <p style="width: 100%; text-align: center; margin-bottom: 10px; font-size:0.9rem; color: #555;">
+                    ¿A cuál de nuestras líneas de atención deseas enviar el pedido?
+                </p>
+                <button class="btn-cerrar" onclick="volverAlCarrito()">Volver</button>
+                <button class="btn-whatsapp" onclick="enviarPedido('59168668457')">Atención 68668457</button>
+                <button class="btn-whatsapp" onclick="enviarPedido('59163734407')">Atención 63734407</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array de datos estructurado por sectores
+        const productos = [
+            // Sector: Kirusilla Económica
+            {
+                id: 1,
+                nombre: "Licor Artesanal de Kirusilla",
+                sector: "kirusilla-eco",
+                sectorNombre: "Kirusilla Económica",
+                descripcion: "Licor tradicional suave, ideal para compartir en reuniones.",
+                precio: 45,
+                imagen: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 2,
+                nombre: "Macerado de Kirusilla con Miel",
+                sector: "kirusilla-eco",
+                sectorNombre: "Kirusilla Económica",
+                descripcion: "Toque dulce de miel silvestre macerado por 3 meses.",
+                precio: 60,
+                imagen: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=400&q=80"
+            },
+
+            // Sector: Kirusilla Gran Reserva
+            {
+                id: 3,
+                nombre: "Kirusilla Sopachueña Roble Añejo",
+                sector: "kirusilla-reserva",
+                sectorNombre: "Gran Reserva",
+                descripcion: "Añejada en barricas de roble. Notas amaderadas y profundas.",
+                precio: 130,
+                imagen: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 4,
+                nombre: "Kirusilla Etiqueta Dorada (Edición Limitada)",
+                sector: "kirusilla-reserva",
+                sectorNombre: "Gran Reserva",
+                descripcion: "Cosecha selecta de altura. Calidad superior de exportación.",
+                precio: 190,
+                imagen: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=400&q=80"
+            },
+
+            // Sector: Whisky Clásico
+            {
+                id: 5,
+                nombre: "Whisky Blended Escocés 8 Años",
+                sector: "whisky-clasico",
+                sectorNombre: "Whisky Clásico",
+                descripcion: "Sabor equilibrado con notas ligeras de manzana y vainilla.",
+                precio: 160,
+                imagen: "https://images.unsplash.com/photo-1614316938927-56e6d1c81da5?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 6,
+                nombre: "Bourbon Style Kentucky Special",
+                sector: "whisky-clasico",
+                sectorNombre: "Whisky Clásico",
+                descripcion: "Whisky de grano con carácter robusto y final acaramelado.",
+                precio: 210,
+                imagen: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=400&q=80"
+            },
+
+            // Sector: Whisky Ultra Premium
+            {
+                id: 7,
+                nombre: "Single Malt Escocés 18 Años",
+                sector: "whisky-premium",
+                sectorNombre: "Ultra Premium",
+                descripcion: "Añejamiento prolongado. Complejidad ahumada de nivel profesional.",
+                precio: 580,
+                imagen: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 8,
+                nombre: "Whisky Gran Reserva 21 Años Edición Colección",
+                sector: "whisky-premium",
+                sectorNombre: "Ultra Premium",
+                descripcion: "Una joya para conocedores. Notas de frutos secos, especias y Roble.",
+                precio: 1150,
+                imagen: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=400&q=80"
+            }
+        ];
+
+        let carrito = [];
+
+        // Inicializar la tienda cargando todos los productos
+        document.addEventListener("DOMContentLoaded", () => {
+            renderizarProductos(productos);
+        });
+
+        // Función para renderizar las tarjetas en la grilla
+        function renderizarProductos(lista) {
+            const grid = document.getElementById('grid-productos');
+            grid.innerHTML = '';
+
+            lista.forEach(prod => {
+                grid.innerHTML += `
+                    <div class="tarjeta-producto">
+                        <span class="etiqueta-sector">${prod.sectorNombre}</span>
+                        <img src="${prod.imagen}" alt="${prod.nombre}">
+                        <div class="tarjeta-info">
+                            <h3>${prod.nombre}</h3>
+                            <p class="descripcion">${prod.descripcion}</p>
+                            <div class="precio-contenedor">
+                                <span class="precio">Bs. ${prod.precio}</span>
+                                <button class="btn-agregar" onclick="agregarAlCarrito(${prod.id})">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Filtrar por Sector
+        function filtrarSector(sector, boton) {
+            // Actualizar clase activa en botones
+            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
+            boton.classList.add('activo');
+
+            if (sector === 'todos') {
+                renderizarProductos(productos);
+            } else {
+                const filtrados = productos.filter(p => p.sector === sector);
+                renderizarProductos(filtrados);
+            }
+        }
+
+        // Agregar items al carrito
+        function agregarAlCarrito(idProducto) {
+            const producto = productos.find(p => p.id === idProducto);
+            const enCarrito = carrito.find(item => item.id === idProducto);
+
+            if (enCarrito) {
+                enCarrito.cantidad += 1;
+            } else {
+                carrito.push({ ...producto, cantidad: 1 });
+            }
+
+            actualizarContador();
+            alert(`¡"${producto.nombre}" agregado al carrito!`);
+        }
+
+        function actualizarContador() {
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            document.getElementById('contador-carrito').innerText = totalItems;
+        }
+
+        // Control del Modal
+        function abrirCarrito() {
+            const modal = document.getElementById('modal-carrito');
+            const lista = document.getElementById('lista-carrito');
+            const totalElemento = document.getElementById('total-precio');
+            
+            lista.innerHTML = '';
+            let total = 0;
+
+            if (carrito.length === 0) {
+                lista.innerHTML = '<li style="text-align:center; color:#888; padding: 1rem;">Tu carrito está vacío.</li>';
+            } else {
+                carrito.forEach(item => {
+                    const subtotal = item.precio * item.cantidad;
+                    total += subtotal;
+                    lista.innerHTML += `
+                        <li class="item-carrito">
+                            <div>
+                                <strong>${item.nombre}</strong><br>
+                                <small style="color:#666;">Bs. ${item.precio} x ${item.cantidad}</small>
+                            </div>
+                            <span style="font-weight:bold; color:var(--kirusilla-claro);">Bs. ${subtotal}</span>
+                        </li>
+                    `;
+                });
+            }
+
+            totalElemento.innerText = total;
+            volverAlCarrito();
+            modal.classList.add('activo');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-carrito').classList.remove('activo');
+        }
+
+        function generarRecibo() {
+            if (carrito.length === 0) {
+                alert("Agrega productos antes de generar tu recibo.");
+                return;
+            }
+            document.getElementById('modal-titulo').innerText = "Recibo Virtual de Compra";
+            document.getElementById('acciones-carrito').classList.add('oculto');
+            document.getElementById('acciones-recibo').classList.remove('oculto');
+        }
+
+        function volverAlCarrito() {
+            document.getElementById('modal-titulo').innerText = "Resumen de Compras";
+            document.getElementById('acciones-carrito').classList.remove('oculto');
+            document.getElementById('acciones-recibo').classList.add('oculto');
+        }
+
+        // Generación del pedido por WhatsApp
+        function enviarPedido(numeroDestino) {
+            let mensaje = "Hola *Wiski Sopachueño* 🥃\nQuiero realizar el pedido del siguiente desglose:\n\n";
+            let total = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                mensaje += `• *${item.cantidad}x* ${item.nombre} — Bs. ${subtotal}\n`;
+            });
+
+            mensaje += `\n*TOTAL A PAGAR: Bs. ${total}*\n\nPor favor, confírmenme la disponibilidad para proceder con el pago.`;
+
+            const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
